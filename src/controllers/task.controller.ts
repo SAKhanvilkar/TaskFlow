@@ -21,15 +21,13 @@ export const createTask = async (req: Request<{}, {}, ITask>, res: Response)=>{
             user_id: req.user?._id
         })
 
-        await task.populate({
-            path: 'user_id',
-            select: 'name email id' // Only pull the fields you want
-        });
-
+        // task owner
+        const populatedTask = await task.populate("user_id", "name email");
+        
         // send response
         res.status(200).json({
             success:true,
-            data:task,
+            data:populatedTask,
             message:"task created succeesfully"
         })
     }catch (error: any) {
@@ -66,7 +64,11 @@ export const getAllTasks = async (req: Request, res: Response) => {
         const tasks = await Task.find(query)
             .sort({ createdAt: -1 }) // Newest first
             .skip(skip)
-            .limit(Number(limit));
+            .limit(Number(limit))
+            .populate({
+        path: 'user_id',
+        select: 'name email' 
+    });
 
         // send response
         res.status(200).json({
@@ -93,7 +95,7 @@ export const getTaskById = async(req:Request,res:Response)=>{
         const {id} = req.params;
 
         // find task by ID
-        const task = await Task.findById(id);
+        const task = await Task.findById(id).populate('user_id', 'name email');;
         
         // check if task exists
         if(!task){

@@ -3,6 +3,7 @@ import User from '../models/user.model';
 import jwt from 'jsonwebtoken'
 
 
+
 // register 
 export const registerUser = async(req:Request,res:Response)=>{
 
@@ -71,8 +72,8 @@ export const loginUser = async (req:Request,res:Response)=>{
         }
 
         // generatr token
-        const token = jwt.sign({id:user._id},process.env.JWT_SECRET!,{expiresIn:'30d'})
-
+        const token = jwt.sign({id:user._id,},process.env.JWT_SECRET!,{expiresIn:'15m'})
+console.log(token)
         res.status(200).json({
             success:true,
             token,

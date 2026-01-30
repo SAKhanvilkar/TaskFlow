@@ -8,9 +8,8 @@ export interface ITask extends Document {
     priority: "low" | "medium" | "high";
     status: "pending" | "in_progress" | "completed";
     due_date: Date;
-    user: mongoose.Types.ObjectId;
     id?: number;
-} 
+}
 
 export type ITaskDocument = Omit<Document, 'id'> & ITask;
 

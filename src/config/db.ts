@@ -4,7 +4,7 @@ const connectDB = async ():Promise <void>=>{
 
   try{
     const mongoURI = process.env.MONGODB_URI
-    console.log(mongoURI)
+    // console.log(mongoURI)
 
   if(!mongoURI){
     throw new Error("MONGODB_URI is not defined in environment variables");
